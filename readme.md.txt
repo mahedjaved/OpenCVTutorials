@@ -1,0 +1,1 @@
+This repo contains practice code for Computer Vision with C++
