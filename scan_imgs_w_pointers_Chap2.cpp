@@ -45,6 +45,7 @@ void colourReduce(cv::Mat image, int div = 64)
 
 }
 
+// ------------------------------------------------------------------------------- //
 
 void solvingWBitShift(cv::Mat image, int n, int div)
 {
@@ -73,6 +74,23 @@ void solvingWBitShift(cv::Mat image, int n, int div)
 }
 
 // ------------------------------------------------------------------------------- //
+void preservingColourReduce(const cv::Mat &image, cv::Mat &result, int div = 64)
+{
+	/*@desc:: * doing colour reduce but preserving the original image with pointers and refs
+	passing as reference allows the original image to be unchanged. Allows preservation and efficiency in image processing, I personally think it is because we added "const" but ah hell !
+
+	* The output image is also sent as reference so that when func is evoked, you can see the output
+
+	* In "in-place processing" ... the input is the same as output
+
+	* If you re unsure whether you have allocated a separate data buffer for the image, you can use the "create function" of cv::Mat to ensure a new image with new memory is ceated, **SEE BELOW** */
+
+
+
+
+}
+
+// ------------------------------------------------------------------------------- //
 
 int main()
 {
@@ -83,8 +101,18 @@ int main()
 	// you can use the "clone()" method to save the original copy
 	cv::Mat cloneImage = inputImage.clone();
 
-	// reduce the colour
+	// or use "create()" to ensure a seperate copy has been confirmed with a seperate "data buffer allocation"
+	cv::Mat result;
+	result.create(inputImage.rows, inputImage.cols, inputImage.type());
+
+	// check if size of this image equals total() * elementSize()
+	std::cout << "The size : " << result.size << " should equal total * elemSize : " << result.elemSize() * result.total() << "\n";
+
+
+
+	// reduce the colour both standard way or preserving memory way
 	colourReduce(inputImage, 25);
+	preservingColourReduce(inputImage, result, 25);
 
 	cv::namedWindow("Original Window");
 	cv::imshow("Original Window", inputImage);
