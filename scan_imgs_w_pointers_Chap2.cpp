@@ -110,7 +110,7 @@ void preservingColourReduce(const cv::Mat &image, cv::Mat &result, int div = 64)
 
 // ------------------------------------------------------------------------------- //
 
-int main()
+int scanImages()
 {
 	// load image
 	cv::Mat inputImage = cv::imread("../../../../ANGIE_PICS/teahub.io-4k-hd-wallpapers-76956.jpg");
