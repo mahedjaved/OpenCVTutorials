@@ -74,19 +74,37 @@ void solvingWBitShift(cv::Mat image, int n, int div)
 }
 
 // ------------------------------------------------------------------------------- //
+
 void preservingColourReduce(const cv::Mat &image, cv::Mat &result, int div = 64)
 {
-	/*@desc:: * doing colour reduce but preserving the original image with pointers and refs
+	/*
+	@desc:: * doing colour reduce but preserving the original image with pointers and refs
 	passing as reference allows the original image to be unchanged. Allows preservation and efficiency in image processing, I personally think it is because we added "const" but ah hell !
 
 	* The output image is also sent as reference so that when func is evoked, you can see the output
 
 	* In "in-place processing" ... the input is the same as output
 
-	* If you re unsure whether you have allocated a separate data buffer for the image, you can use the "create function" of cv::Mat to ensure a new image with new memory is ceated, **SEE BELOW** */
+	* If you re unsure whether you have allocated a separate data buffer for the image, you can use the "create()" function of cv::Mat to ensure a new image with new memory is ceated, **SEE BELOW**
+	*/
+
+	for (int j = 0; j < image.rows; j++)
+	{
+		// store the pointer address of the image at row 'j', we use const to make sure input is unchanged 
+		const uchar* data_in = image.ptr<uchar>(j);
+		uchar* data_out = result.ptr<uchar>(j);
+
+		// the number of pixel values per row
+		int nc = image.cols * image.channels();
+
+		// loop through the columns for the jth row
+		for (int i = 0; i < nc; i++)
+		{
+			data_out[i] = data_out[i] / div * div + div / 2;
+		}
 
 
-
+	}
 
 }
 
@@ -105,23 +123,24 @@ int main()
 	cv::Mat result;
 	result.create(inputImage.rows, inputImage.cols, inputImage.type());
 
-	// check if size of this image equals total() * elementSize()
-	std::cout << "The size : " << result.size << " should equal total * elemSize : " << result.elemSize() * result.total() << "\n";
+	// check if size of this image equals step() * elementSize()
+	std::cout << "The result size : " << result.size << " should equal total * elemSize : " << result.elemSize() * result.total() << "\n";
 
-
-
-	// reduce the colour both standard way or preserving memory way
+	// REDUCE # 1 == reduce the colour both standard way or preserving memory way
 	colourReduce(inputImage, 25);
-	preservingColourReduce(inputImage, result, 25);
-
 	cv::namedWindow("Original Window");
 	cv::imshow("Original Window", inputImage);
 	cv::waitKey(0);
 
-	cv::namedWindow("Original Window");
+	/*cv::namedWindow("Original Window");
 	cv::imshow("Original Window", cloneImage);
-	cv::waitKey(0);
+	cv::waitKey(0);*/
 
+	// REDUCE #2 == reduce with conservation of input
+	preservingColourReduce(inputImage, result, 25);
+	cv::namedWindow("Original Window");
+	cv::imshow("Original Window", inputImage);
+	cv::waitKey(0);
 
 	return 0;
 }
