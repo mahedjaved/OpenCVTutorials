@@ -11,9 +11,19 @@
 * this involves doing "image.step == image.cols * image.elemSize()"
  */
 
-void colourReduceWContinCheck()
+void colourReduceWContinCheck(cv::Mat &image, int div = 64)
 {
+	// setup rows and cols limits
+	int nl = image.rows;
+	int nc = image.cols * image.channels();
 
+	// check if image is continuous
+	if (image.isContinuous())
+	{
+		// when the image is unpadded, this one can also be seen as a long one dimensional array of "WxH" pixels
+		nc = nc * nl;
+		nl = 1;
+	}
 }
 
 // ------------------------------------------------------------------------------- //
