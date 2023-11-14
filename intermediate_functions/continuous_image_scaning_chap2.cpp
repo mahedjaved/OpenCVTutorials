@@ -28,7 +28,7 @@ void colourReduceWContinCheck(cv::Mat &image, int div = 64)
 
 // ------------------------------------------------------------------------------- //
 
-int main()
-{
-
-}
+//int main()
+//{
+//
+//}

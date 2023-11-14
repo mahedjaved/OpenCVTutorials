@@ -33,7 +33,7 @@ void onMouse(int event, int x, int y, int flags, void* param)
 
 
 // ------------------------------------------------------------------------------- //
-void ShowPixelPosition()
+void main()
 {
 	// now create an empty image
 	cv::Mat image;		// create an empty image

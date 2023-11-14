@@ -48,7 +48,7 @@ void addSaltPepperNoise(cv::Mat image, int n)
 
 // --------------------------------------------------------------------------------------------------- //
 
-int AccessPixelAtLoc()
+int addSaltPepperNoiseExample()
 {
 
 	cv::Mat inputImage = cv::imread("../../../../ANGIE_PICS/teahub.io-4k-hd-wallpapers-76956.jpg");
